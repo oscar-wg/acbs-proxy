@@ -1,1 +1,1 @@
-# acbs-proxy
+# 澳車北上 CORS Proxy (with Flask)
