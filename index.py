@@ -23,14 +23,14 @@ CORS(app, origins=proxy_allow_origin, allow_headers='*')
 
 @app.route('/<path:url>', methods=method_requests_mapping.keys())
 def proxy(url):
-    if url[:7] != 'before/':
+    if url[:7] != 'before/' or url[:7] != 'app/':
         return flask.make_response('Path not found.', 404)
     requests_function = method_requests_mapping[flask.request.method]
     data = None
     headers = {
         'Content-Type': flask.request.headers['Content-Type'] if 'Content-Type' in flask.request.headers else 'application/x-www-form-urlencoded'
     }
-    if flask.request.method == 'POST':
+    if flask.request.method in ['POST', 'PUT']:
         data=flask.request.form.to_dict() if 'form' in flask.request.headers['Content-Type'] else flask.request.data
     if 'X-Access-Token' in flask.request.headers:
         headers['X-Access-Token'] = flask.request.headers['X-Access-Token']
