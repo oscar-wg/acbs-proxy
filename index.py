@@ -23,7 +23,7 @@ CORS(app, origins=proxy_allow_origin, allow_headers='*')
 
 @app.route('/<path:url>', methods=method_requests_mapping.keys())
 def proxy(url):
-    if url[:7] != 'before/' or url[:7] != 'app/':
+    if not(url[:7] == 'before/' or url[:4] == 'app/'):
         return flask.make_response('Path not found.', 404)
     requests_function = method_requests_mapping[flask.request.method]
     data = None
